@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 void main() {
   runApp(ElectronicVotingSystemApp());
@@ -14,16 +15,16 @@ class ElectronicVotingSystemApp extends StatelessWidget {
         accentColor: Colors.deepPurpleAccent,
         scaffoldBackgroundColor: Colors.white,
         textTheme: TextTheme(
-          titleLarge : TextStyle(
+          titleLarge: TextStyle(
             color: Colors.deepPurple,
             fontWeight: FontWeight.bold,
             fontSize: 24.0,
           ),
-          bodyLarge : TextStyle(
+          bodyLarge: TextStyle(
             color: Colors.black87,
             fontSize: 16.0,
           ),
-          labelLarge : TextStyle(
+          labelLarge: TextStyle(
             color: Colors.white,
             fontSize: 16.0,
             fontWeight: FontWeight.bold,
@@ -32,7 +33,7 @@ class ElectronicVotingSystemApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           color: Colors.deepPurple,
           textTheme: TextTheme(
-            titleLarge : TextStyle(
+            titleLarge: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 24.0,
@@ -52,11 +53,44 @@ class ElectronicVotingSystemApp extends StatelessWidget {
   }
 }
 
-
-
-
 class HomePage extends StatelessWidget {
-  final List<Map<String, dynamic>> _sections = [    {      'title': 'Candidates',      'icon': Icons.people,      'page': CandidatesPage(),    },    {      'title': 'Voting',      'icon': Icons.how_to_vote,      'page': VotingPage(),    },    {      'title': 'Blockchain',      'icon': Icons.security,      'page': BlockchainPage(),    },    {      'title': 'Support',      'icon': Icons.support_agent,      'page': SupportPage(),    },    {      'title': 'About us',      'icon': Icons.info,      'page': AboutUsPage(),    },    {      'title': 'Security',      'icon': Icons.lock,      'page': SecurityPage(),    },    {      'title': 'News and Updates',      'icon': Icons.new_releases,      'page': NewsPage(),    },  ];
+  final List<Map<String, dynamic>> _sections = [
+    {
+      'title': 'Candidates',
+      'icon': Icons.people,
+      'page': CandidatesPage(),
+    },
+    {
+      'title': 'Voting',
+      'icon': Icons.how_to_vote,
+      'page': VotingPage(),
+    },
+    {
+      'title': 'Blockchain',
+      'icon': Icons.security,
+      'page': BlockchainPage(),
+    },
+    {
+      'title': 'Support',
+      'icon': Icons.support_agent,
+      'page': SupportPage(),
+    },
+    {
+      'title': 'About us',
+      'icon': Icons.info,
+      'page': AboutUsPage(),
+    },
+    {
+      'title': 'Security',
+      'icon': Icons.lock,
+      'page': SecurityPage(),
+    },
+    {
+      'title': 'News and Updates',
+      'icon': Icons.new_releases,
+      'page': NewsPage(),
+    },
+  ];
 
   void _navigateToAuthenticationPage(BuildContext context) {
     Navigator.push(
@@ -64,13 +98,13 @@ class HomePage extends StatelessWidget {
       MaterialPageRoute(builder: (context) => AuthenticationPage()),
     );
   }
-  void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
 
+  void _navigateToHomePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +117,8 @@ class HomePage extends StatelessWidget {
               height: 80,
             ),
             SizedBox(width: 10),
-           
           ],
         ),
-        
       ),
       drawer: Drawer(
         child: ListView.builder(
@@ -98,7 +130,8 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => _sections[index]['page']),
+                  MaterialPageRoute(
+                      builder: (context) => _sections[index]['page']),
                 );
               },
             );
@@ -110,9 +143,53 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 24.0),
-            Text(
-              'Welcome to EVoting',
-              style: Theme.of(context).textTheme.headline6,
+            //animated text (Jumps in ) saying welcome to evoting
+            AnimatedTextKit(
+              animatedTexts: [
+                ColorizeAnimatedText('E-Voting',
+                    textStyle:
+                        TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
+                    colors: [
+                      Colors.purple,
+                      Colors.blue,
+                      Colors.yellow,
+                      Colors.red
+                    ]),
+              ],
+            ),
+            //Add a  animation text saying Voting Made then in rotation (Easy,Secure,Faster)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Voting Made',
+                    style: Theme.of(context).textTheme.titleLarge),
+                SizedBox(width: 20.0, height: 100.0),
+                AnimatedTextKit(
+                  animatedTexts: [
+                    RotateAnimatedText(
+                      'Easy',
+                      textStyle: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'Canterbury',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    RotateAnimatedText(
+                      'Secure',
+                      textStyle: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'Canterbury',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    RotateAnimatedText(
+                      'Faster',
+                      textStyle: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'Canterbury',
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
             ),
             SizedBox(height: 24.0),
             ElevatedButton.icon(
@@ -136,11 +213,11 @@ class HomePage extends StatelessWidget {
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
@@ -148,9 +225,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-} 
-
-
+}
 
 class AuthenticationPage extends StatelessWidget {
   final _nameController = TextEditingController();
@@ -222,14 +297,13 @@ class AuthenticationPage extends StatelessWidget {
                     // TODO: Handle fingerprint authentication
                   },
                 ),
-                 _VerificationOption(
+                _VerificationOption(
                   icon: Icons.lock_outline,
                   label: 'Password',
                   onPressed: () {
                     // TODO: Handle password authentication
                   },
-                 )
-  
+                )
               ],
             ),
           ],
@@ -271,12 +345,13 @@ class _VerificationOption extends StatelessWidget {
 }
 
 class CandidatesPage extends StatelessWidget {
-   void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
+  void _navigateToHomePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -284,17 +359,18 @@ class CandidatesPage extends StatelessWidget {
         title: Text('Candidates'),
       ),
       body: Center(
-        child: Text('Learn more about the candidates running in the election and their party affiliations.'),
+        child: Text(
+            'Learn more about the candidates running in the election and their party affiliations.'),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
@@ -311,12 +387,14 @@ class VotingPage extends StatelessWidget {
       MaterialPageRoute(builder: (context) => AuthenticationPage()),
     );
   }
+
   void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -331,25 +409,23 @@ class VotingPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6),
             SizedBox(height: 24.0),
             ElevatedButton.icon(
-              onPressed: ()=> _navigateToAuthenticationPage(context),
+              onPressed: () => _navigateToAuthenticationPage(context),
               icon: Icon(Icons.login),
               label: Text('Login'),
             ),
             SizedBox(height: 12.0),
-            
           ],
         ),
-
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
@@ -360,12 +436,13 @@ class VotingPage extends StatelessWidget {
 }
 
 class BlockchainPage extends StatelessWidget {
-   void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
+  void _navigateToHomePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -373,159 +450,167 @@ class BlockchainPage extends StatelessWidget {
         title: Text('Blockchain'),
       ),
       body: Center(
-        child: Text('Discover how blockchain technology ensures the integrity and security of the voting process.'),
+        child: Text(
+            'Discover how blockchain technology ensures the integrity and security of the voting process.'),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
         ),
       ),
-
     );
   }
 }
 
- class SupportPage extends StatelessWidget {
+class SupportPage extends StatelessWidget {
   void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-appBar: AppBar(
-title: Text('Support'),
-),
-body: Center(
-child: Text('Need help or have a question? Contact our support team for assistance.'),
-),
-bottomNavigationBar: BottomAppBar(
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Support'),
+      ),
+      body: Center(
+        child: Text(
+            'Need help or have a question? Contact our support team for assistance.'),
+      ),
+      bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
         ),
       ),
-);
-}
+    );
+  }
 }
 
 class AboutUsPage extends StatelessWidget {
   void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-appBar: AppBar(
-title: Text('About us'),
-),
-body: Center(
-child: Text('Learn more about the team behind Evote and our mission to revolutionize democracy.'),
-),
-bottomNavigationBar: BottomAppBar(
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('About us'),
+      ),
+      body: Center(
+        child: Text(
+            'Learn more about the team behind Evote and our mission to revolutionize democracy.'),
+      ),
+      bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
         ),
       ),
-);
-}
+    );
+  }
 }
 
 class SecurityPage extends StatelessWidget {
   void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-appBar: AppBar(
-title: Text('Security'),
-),
-body: Center(
-child: Text('Find out how we keep your vote safe and secure through cutting-edge security measures and protocols.'),
-),
-bottomNavigationBar: BottomAppBar(
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Security'),
+      ),
+      body: Center(
+        child: Text(
+            'Find out how we keep your vote safe and secure through cutting-edge security measures and protocols.'),
+      ),
+      bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
         ),
       ),
-);
-}
+    );
+  }
 }
 
 class NewsPage extends StatelessWidget {
   void _navigateToHomePage(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomePage()),
-  );
-}
-@override
-Widget build(BuildContext context) {
-return Scaffold(
-appBar: AppBar(
-title: Text('News and Updates'),
-),
-body: Center(
-child: Text('Stay up-to-date with the latest news and updates from Evote.'),
-),
-bottomNavigationBar: BottomAppBar(
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('News and Updates'),
+      ),
+      body: Center(
+        child: Text(
+            'Stay up-to-date with the latest news and updates from Evote.'),
+      ),
+      bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:[
+          children: [
             IconButton(
-            onPressed: () => _navigateToHomePage(context),
-                // TODO: Implement home button functionality
-              
+              onPressed: () => _navigateToHomePage(context),
+              // TODO: Implement home button functionality
+
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
         ),
       ),
-);
-}
+    );
+  }
 }
