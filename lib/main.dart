@@ -5,6 +5,86 @@ void main() {
   runApp(ElectronicVotingSystemApp());
 }
 
+class Candidate {
+  final String name;
+  final String details;
+
+  Candidate({required this.name, required this.details});
+}
+
+class CandidatesList extends StatelessWidget {
+  final List<Candidate> candidates = [
+    Candidate(name: 'Candidate 1', details: 'Party: PTI \nSign: BAT'),
+    Candidate(name: 'Candidate 2', details: 'Party: PMLN \nSign: LION'),
+    Candidate(name: 'Candidate 3', details: 'Party: MQM \nSign: ARROW'),
+    Candidate(name: 'Candidate 4', details: 'Party: FREE \nSign: BUCKET'),
+    Candidate(name: 'Candidate 5', details: 'Party: UUU \nSign: STAMP'),
+  ];
+  //Create image list
+  final List<String> images = [
+    'https://i.ibb.co/nBjTvpM/logo-removebg-preview.png',
+    'https://i.ibb.co/nBjTvpM/logo-removebg-preview.png',
+    'https://i.ibb.co/nBjTvpM/logo-removebg-preview.png',
+    'https://i.ibb.co/nBjTvpM/logo-removebg-preview.png',
+    'https://i.ibb.co/nBjTvpM/logo-removebg-preview.png',
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Candidates List')),
+      body: ListView.builder(
+        itemCount: candidates.length,
+        itemBuilder: (context, index) {
+          final candidate = candidates[index];
+          final imagelist = images[index];
+          return ListTile(
+            title: Text(candidate.name,
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
+                    fontFamily: 'Canterbury')),
+            trailing: ElevatedButton(
+              onPressed: () => _showDetails(context, candidate, imagelist),
+              child: Text('See Details'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.purple,
+                onPrimary: Colors.white,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  void _showDetails(
+      BuildContext context, Candidate candidate, String imagelist) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(candidate.name),
+        content: Wrap(
+          children: [
+            Text(candidate.details),
+            //Add image
+            Image.network(imagelist),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Close'),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.purple),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ElectronicVotingSystemApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -65,11 +145,11 @@ class HomePage extends StatelessWidget {
       'icon': Icons.how_to_vote,
       'page': VotingPage(),
     },
-    {
-      'title': 'Blockchain',
-      'icon': Icons.security,
-      'page': BlockchainPage(),
-    },
+    // {
+    //   'title': 'Blockchain',
+    //   'icon': Icons.security,
+    //   'page': BlockchainPage(),
+    // },
     {
       'title': 'Support',
       'icon': Icons.support_agent,
@@ -80,11 +160,11 @@ class HomePage extends StatelessWidget {
       'icon': Icons.info,
       'page': AboutUsPage(),
     },
-    {
-      'title': 'Security',
-      'icon': Icons.lock,
-      'page': SecurityPage(),
-    },
+    // {
+    //   'title': 'Security',
+    //   'icon': Icons.lock,
+    //   'page': SecurityPage(),
+    // },
     {
       'title': 'News and Updates',
       'icon': Icons.new_releases,
@@ -110,15 +190,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            Image.network(
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAExJpavOcG81D6KYNE2zGtlaH1iPq9lJvTw&usqp=CAU',
-              height: 80,
-            ),
-            SizedBox(width: 10),
-          ],
-        ),
+        title: Row(),
       ),
       drawer: Drawer(
         child: ListView.builder(
@@ -142,7 +214,13 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 24.0),
+            //Add image https://i.ibb.co/pft37DH/A-letter-tech-logo-1.png
+            Image.network(
+              'https://i.ibb.co/jwjZ4xv/A-letter-tech-logo-3.png',
+              height: 100.0,
+              //Resize image
+              width: 300.0,
+            ),
             //animated text (Jumps in ) saying welcome to evoting
             AnimatedTextKit(
               animatedTexts: [
@@ -195,16 +273,16 @@ class HomePage extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () => _navigateToAuthenticationPage(context),
               icon: Icon(Icons.login),
-              label: Text('Login'),
+              label: Text('Prove Identity'),
             ),
             SizedBox(height: 12.0),
-            OutlinedButton.icon(
-              onPressed: () {
-                // TODO: Implement signup button functionality
-              },
-              icon: Icon(Icons.person_add),
-              label: Text('Signup'),
-            ),
+            // OutlinedButton.icon(
+            //   onPressed: () {
+            //     // TODO: Implement signup button functionality
+            //   },
+            //   icon: Icon(Icons.person_add),
+            //   label: Text('Signup'),
+            // ),
             SizedBox(height: 24.0),
           ],
         ),
@@ -355,27 +433,7 @@ class CandidatesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Candidates'),
-      ),
-      body: Center(
-        child: Text(
-            'Learn more about the candidates running in the election and their party affiliations.'),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.deepPurple,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              onPressed: () => _navigateToHomePage(context),
-              // TODO: Implement home button functionality
-
-              icon: Icon(Icons.home, color: Colors.white),
-            ),
-          ],
-        ),
-      ),
+      body: CandidatesList(), // Use the CandidatesList widget as a child
     );
   }
 }
@@ -435,41 +493,41 @@ class VotingPage extends StatelessWidget {
   }
 }
 
-class BlockchainPage extends StatelessWidget {
-  void _navigateToHomePage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
-  }
+// class BlockchainPage extends StatelessWidget {
+//   void _navigateToHomePage(BuildContext context) {
+//     Navigator.push(
+//       context,
+//       MaterialPageRoute(builder: (context) => HomePage()),
+//     );
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Blockchain'),
-      ),
-      body: Center(
-        child: Text(
-            'Discover how blockchain technology ensures the integrity and security of the voting process.'),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.deepPurple,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-              onPressed: () => _navigateToHomePage(context),
-              // TODO: Implement home button functionality
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Blockchain'),
+//       ),
+//       body: Center(
+//         child: Text(
+//             'Discover how blockchain technology ensures the integrity and security of the voting process.'),
+//       ),
+//       bottomNavigationBar: BottomAppBar(
+//         color: Colors.deepPurple,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             IconButton(
+//               onPressed: () => _navigateToHomePage(context),
+//               // TODO: Implement home button functionality
 
-              icon: Icon(Icons.home, color: Colors.white),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//               icon: Icon(Icons.home, color: Colors.white),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class SupportPage extends StatelessWidget {
   void _navigateToHomePage(BuildContext context) {
