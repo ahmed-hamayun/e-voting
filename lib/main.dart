@@ -439,13 +439,6 @@ class CandidatesPage extends StatelessWidget {
 }
 
 class VotingPage extends StatelessWidget {
-  void _navigateToAuthenticationPage(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => AuthenticationPage()),
-    );
-  }
-
   void _navigateToHomePage(BuildContext context) {
     Navigator.push(
       context,
@@ -460,18 +453,34 @@ class VotingPage extends StatelessWidget {
         title: Text('Voting'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('prove your identity to proceed',
-                style: Theme.of(context).textTheme.headline6),
-            SizedBox(height: 24.0),
-            ElevatedButton.icon(
-              onPressed: () => _navigateToAuthenticationPage(context),
-              icon: Icon(Icons.login),
-              label: Text('Login'),
+            CandidateProfileWidget(
+              name: 'candidate 1',
+              avatarUrl: 'https://images.cdn4.stockunlimited.net/clipart/avatar-of-election-candidate-with-a-check-mark_1534298.jpg',
+              partyAffiliation: 'PTI',
             ),
-            SizedBox(height: 12.0),
+            CandidateProfileWidget(
+              name: 'candidate 2',
+              avatarUrl: 'https://images.cdn4.stockunlimited.net/clipart/avatar-of-election-candidate-with-a-check-mark_1534298.jpg',
+              partyAffiliation: 'PMLN',
+            ),
+            CandidateProfileWidget(
+              name: 'candidate 3',
+              avatarUrl: 'https://images.cdn4.stockunlimited.net/clipart/avatar-of-election-candidate-with-a-check-mark_1534298.jpg',
+              partyAffiliation: 'PPP',
+            ),
+            CandidateProfileWidget(
+              name: 'candidate 4',
+              avatarUrl: 'https://images.cdn4.stockunlimited.net/clipart/avatar-of-election-candidate-with-a-check-mark_1534298.jpg',
+              partyAffiliation: 'MQM',
+            ),
+            CandidateProfileWidget(
+              name: 'candidate 5',
+              avatarUrl: 'https://images.cdn4.stockunlimited.net/clipart/avatar-of-election-candidate-with-a-check-mark_1534298.jpg',
+              partyAffiliation: 'PDM',
+            ),
           ],
         ),
       ),
@@ -482,8 +491,6 @@ class VotingPage extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () => _navigateToHomePage(context),
-              // TODO: Implement home button functionality
-
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
@@ -492,6 +499,68 @@ class VotingPage extends StatelessWidget {
     );
   }
 }
+
+
+class CandidateProfileWidget extends StatefulWidget {
+  final String name;
+  final String avatarUrl;
+  final String partyAffiliation;
+
+  const CandidateProfileWidget({
+    required this.name,
+    required this.avatarUrl,
+    required this.partyAffiliation,
+  });
+
+  @override
+  _CandidateProfileWidgetState createState() => _CandidateProfileWidgetState();
+}
+
+class _CandidateProfileWidgetState extends State<CandidateProfileWidget> {
+  bool _voted = false;
+
+  void _showVoteSnackbar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('You have voted for ${widget.name}.'),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircleAvatar(
+          radius: 50,
+          backgroundImage: NetworkImage(widget.avatarUrl),
+        ),
+        SizedBox(height: 16),
+        Text(
+          widget.name,
+          style: TextStyle(fontSize: 24),
+        ),
+        SizedBox(height: 8),
+        Text(
+          widget.partyAffiliation,
+          style: TextStyle(fontSize: 18),
+        ),
+        SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: _voted ? null : () {
+            setState(() {
+              _voted = true;
+            });
+            _showVoteSnackbar();
+          },
+          child: Text(_voted ? 'Voted' : 'Vote Now'),
+        ),
+      ],
+    );
+  }
+}
+
 
 // class BlockchainPage extends StatelessWidget {
 //   void _navigateToHomePage(BuildContext context) {
@@ -544,8 +613,29 @@ class SupportPage extends StatelessWidget {
         title: Text('Support'),
       ),
       body: Center(
-        child: Text(
-            'Need help or have a question? Contact our support team for assistance.'),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ProfileWidget(
+              name: 'Ahmed',
+              avatarUrl:
+                  'https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg',
+              email: 'i191709@nu.edu.pk',
+            ),
+            ProfileWidget(
+              name: 'muneeb',
+              avatarUrl:
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNUGFZDrnAumJwM5JkKRRA0xCLvqmkzBFoT4fR33pL4YlwoE7yyEVB3GPgoM-QZIHRU7s&usqp=CAU',
+              email: 'i190591@nu.edu.pk',
+            ),
+            ProfileWidget(
+              name: 'asad',
+              avatarUrl:
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGP0LOh8SpUJCGgsBxnYVT1lvY4DNW_f_lBA&usqp=CAU',
+              email: 'i191666@nu.edu.pk',
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.deepPurple,
@@ -554,13 +644,46 @@ class SupportPage extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () => _navigateToHomePage(context),
-              // TODO: Implement home button functionality
-
               icon: Icon(Icons.home, color: Colors.white),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProfileWidget extends StatelessWidget {
+  final String name;
+  final String avatarUrl;
+  final String email;
+
+  const ProfileWidget({
+    required this.name,
+    required this.avatarUrl,
+    required this.email,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CircleAvatar(
+          radius: 50,
+          backgroundImage: NetworkImage(avatarUrl),
+        ),
+        SizedBox(height: 16),
+        Text(
+          name,
+          style: TextStyle(fontSize: 24),
+        ),
+        SizedBox(height: 8),
+        Text(
+          email,
+          style: TextStyle(fontSize: 18),
+        ),
+      ],
     );
   }
 }
